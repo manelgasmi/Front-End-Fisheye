@@ -1,1 +1,4 @@
-//Mettre le code JavaScript lié à la page photographer.html
+import { App } from "../classes/App.js";
+
+const app = new App();
+app.displayProfile();

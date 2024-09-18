@@ -68,3 +68,7 @@ h1 {
   object-fit: cover;
   border-radius: 50%;
 }
+
+.photographer_section article a {
+  text-decoration: none;
+}

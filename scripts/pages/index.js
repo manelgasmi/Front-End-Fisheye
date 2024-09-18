@@ -1,28 +1,5 @@
-async function getPhotographers() {
-  const reponse = await fetch("data/photographers.json");
-  const jsonData = await reponse.json();
-  const photographers = jsonData.photographers;
-  // et bien retourner le tableau photographers seulement une fois récupéré
-  return {
-    photographers: photographers
-  };
-}
+import { App } from "../classes/App.js";
 
-async function displayData(photographers) {
-  const photographersSection = document.querySelector(".photographer_section");
+const app = new App();
+app.displayList();
 
-  photographers.forEach((photographer) => {
-    const photographerModel = photographerTemplate(photographer);
-    const userCardDOM = photographerModel.getUserCardDOM();
-    photographersSection.appendChild(userCardDOM);
-  });
-}
-
-async function init() {
-  // Récupère les datas des photographes
-  
-  const { photographers } = await getPhotographers();
-  displayData(photographers);
-}
-
-init();
