@@ -2,45 +2,153 @@
 <html>
   <head>
     <link href="css/style.css" rel="stylesheet" type="text/css" />
-    <meta charset="utf-8">
-    <link rel="icon" type="image/png" href="assets/favicon.png">
-    <link href="https://fonts.googleapis.com/css?family=DM+Sans&display=swap" rel="stylesheet">
-    <title>Fisheye - photographe </title>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/png" href="assets/favicon.png" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>Fisheye - photographe</title>
   </head>
   <body>
-    <header>
+    <header class="container">
       <img src="assets/images/logo.png" class="logo" />
     </header>
-    <main id="main">
+    <main class="container">
       <section class="photograph-header">
         <div class="photographer-infos">
           <h1 class="photographer-name"></h1>
-          <h6>adrsse</h6>
-          <p>text</p>
+          <h4 class="photographer-address"></h4>
+          <p class="photographer-tagline"></p>
         </div>
-        <div>
-          <button class="contact_button" onclick="displayModal()">Contactez-moi</button>
+        <div class="contact_button-container">
+          <button class="contact_button" onclick="displayModal()">
+            Contactez-moi
+          </button>
         </div>
-        <div>
+        <div class="photographer-img">
 
+        </div>
+      </section>
+      <section class="filter">
+        
+        <p>Trier par</p>
+      </section>
+      <section class="media">
+        <div class="media-card">
+          <div class="media-container"><img src=./assets/images/Mimi/Animals_Rainbow.jpg alt="oiseau coloré en arc en ciel"></div>
+          <div class="media-info">
+            <h4>Arc-en-ciel</h4>
+            <div aria-label="Nombre de likes">
+              <span>12</span>
+              <i class="fa-solid fa-heart"></i>
+            </div>
+          </div>
+        </div>
+        <div class="media-card">
+          <div class="media-container"><img src=./assets/images/Mimi/Animals_Rainbow.jpg alt=""></div>
+          <div class="media-info">
+            <h4>Arc-en-ciel</h4>
+            <div>
+              <span>12</span>
+              <i class="fa-solid fa-heart"></i>
+            </div>
+          </div>
+        </div>
+        <div class="media-card">
+          <div class="media-container"><img src=./assets/images/Mimi/Animals_Rainbow.jpg alt=""></div>
+          <div class="media-info">
+            <h4>Arc-en-ciel</h4>
+            <div>
+              <span>12</span>
+              <i class="fa-solid fa-heart"></i>
+            </div>
+          </div>
+        </div>
+        <div class="media-card">
+          <div class="media-container"><img src=./assets/images/Mimi/Animals_Rainbow.jpg alt=""></div>
+          <div class="media-info">
+            <h4>Arc-en-ciel</h4>
+            <div>
+              <span>12</span>
+              <i class="fa-solid fa-heart"></i>
+            </div>
+          </div>
+        </div>
+        <div class="media-card">
+          <div class="media-container"><img src=./assets/images/Mimi/Animals_Rainbow.jpg alt=""></div>
+          <div class="media-info">
+            <h4>Arc-en-ciel</h4>
+            <div>
+              <span>12</span>
+              <i class="fa-solid fa-heart"></i>
+            </div>
+          </div>
+        </div>
+        <div class="media-card">
+          <div class="media-container"><img src=./assets/images/Mimi/Animals_Rainbow.jpg alt=""></div>
+          <div class="media-info">
+            <h4>Arc-en-ciel</h4>
+            <div>
+              <span>12</span>
+              <i class="fa-solid fa-heart"></i>
+            </div>
+          </div>
+        </div>
+        <div class="media-card">
+          <div class="media-container"><img src=./assets/images/Mimi/Animals_Rainbow.jpg alt=""></div>
+          <div class="media-info">
+            <h4>Arc-en-ciel</h4>
+            <div>
+              <span>12</span>
+              <i class="fa-solid fa-heart"></i>
+            </div>
+          </div>
+        </div>
+        <div class="media-card">
+          <div class="media-container"><img src=./assets/images/Mimi/Animals_Rainbow.jpg alt=""></div>
+          <div class="media-info">
+            <h4>Arc-en-ciel</h4>
+            <div>
+              <span>12</span>
+              <i class="fa-solid fa-heart"></i>
+            </div>
+          </div>
+        </div>
+        <div class="media-card">
+          <div class="media-container"><img src=./assets/images/Mimi/Animals_Rainbow.jpg alt=""></div>
+          <div class="media-info">
+            <h4>Arc-en-ciel</h4>
+            <div>
+              <span>12</span>
+              <i class="fa-solid fa-heart"></i>
+            </div>
+          </div>
+        </div>
+        <div class="media-card">
+          <div class="media-container"><img src=./assets/images/Mimi/Animals_Rainbow.jpg alt=""></div>
+          <div class="media-info">
+            <h4>Arc-en-ciel</h4>
+            <div>
+              <span>12</span>
+              <i class="fa-solid fa-heart"></i>
+            </div>
+          </div>
         </div>
       </section>
     </main>
     <div id="contact_modal">
-			<div class="modal">
-				<header>
+      <div class="modal">
+        <header>
           <h2>Contactez-moi</h2>
           <img src="assets/icons/close.svg" onclick="closeModal()" />
         </header>
-				<form>
-					<div>
-						<label>Prénom</label>
-						<input />
-					</div>
+        <form>
+          <div>
+            <label>Prénom</label>
+            <input />
+          </div>
           <button class="contact_button">Envoyer</button>
-				</form>
-			</div>
-		</div>
+        </form>
+      </div>
+    </div>
     <script type="module" src="/scripts/pages/photographer.js"></script>
   </body>
 </html>

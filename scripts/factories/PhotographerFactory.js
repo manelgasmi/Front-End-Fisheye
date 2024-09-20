@@ -26,7 +26,7 @@ export class PhotographerFactory {
   }
 
   async displayProfile() {
-    //Mettre le code JavaScript lié à la page photographer.html
+    //récupérer l'id du photographer depuis l'url
     const urlParams = new URLSearchParams(window.location.search);
     const photographerId = urlParams.get("id");
     const id = parseInt(photographerId);
@@ -34,7 +34,27 @@ export class PhotographerFactory {
     const photographerFactory = new PhotographerFactory();
 
     // Récupère les données du photographer
-    const photographers = await photographerFactory.getPhotographer(id);
+    const photographer = await photographerFactory.getPhotographer(id);
+    console.log(photographer);
+
+    // insérer le nom
+    const name = document.querySelector(".photographer-name");
+    name.innerText = photographer.name;
+
+    // insérer l'adresse
+    const address = document.querySelector(".photographer-address");
+    address.innerText = `${photographer.city}, ${photographer.country}`;
+
+    // insérer tagline
+    const tagline = document.querySelector(".photographer-tagline");
+    tagline.innerText = photographer.tagline;
+
+    // insérer image
+    const img = document.createElement("img");
+    img.setAttribute("src", `assets/photographers/${photographer.portrait}`);
+    img.setAttribute("alt", `Portrait de ${photographer.name}`);
+    const portrait = document.querySelector(".photographer-img");
+    portrait.appendChild(img);
   }
 
   createPhotographerCard(photographerData) {
@@ -97,9 +117,10 @@ export class PhotographerFactory {
 
   async getPhotographer(id) {
     const photographers = await this.getPhotographers();
-    const photographer = photographers.find(
+    const data = photographers.find(
       (photographer) => photographer.id === id
     );
-    console.log(photographer);
+    const photographer = new Photographer(data);
+    return photographer;
   }
 }
