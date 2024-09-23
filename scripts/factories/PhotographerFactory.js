@@ -9,7 +9,7 @@ export class PhotographerFactory {
       this.displayProfile();
     }
   }
-
+  // afficher les listes des photographes
   async displayList() {
     const photographerFactory = new PhotographerFactory();
     // Récupère les datas des photographes
@@ -40,6 +40,7 @@ export class PhotographerFactory {
     // insérer le nom
     const name = document.querySelector(".photographer-name");
     name.innerText = photographer.name;
+    name.setAttribute("id", "photographer-name");
 
     // insérer l'adresse
     const address = document.querySelector(".photographer-address");
@@ -48,19 +49,22 @@ export class PhotographerFactory {
     // insérer tagline
     const tagline = document.querySelector(".photographer-tagline");
     tagline.innerText = photographer.tagline;
+    address.setAttribute("id", "photographer-address");
 
     // insérer image
     const img = document.createElement("img");
     img.setAttribute("src", `assets/photographers/${photographer.portrait}`);
     img.setAttribute("alt", `Portrait de ${photographer.name}`);
+    img.setAttribute("aria-labelledby", "photographer-name");
+    img.setAttribute("aria-describedby", "photographer-address");
     const portrait = document.querySelector(".photographer-img");
     portrait.appendChild(img);
   }
 
   createPhotographerCard(photographerData) {
     const photographer = new Photographer(photographerData);
-
     const article = document.createElement("article");
+    article.setAttribute("role", "article");
 
     // Lien pour l'image du photographe
     const imgLink = document.createElement("a");
@@ -69,6 +73,7 @@ export class PhotographerFactory {
       "aria-label",
       `Lien vers la page de ${photographer.name}`
     );
+    imgLink.setAttribute("tabindex", "0");
 
     const img = document.createElement("img");
     img.setAttribute("src", `assets/photographers/${photographer.portrait}`);
@@ -78,10 +83,9 @@ export class PhotographerFactory {
     // Lien pour le nom
     const titleLink = document.createElement("a");
     titleLink.setAttribute("href", `photographer.html?id=${photographer.id}`);
-    titleLink.setAttribute(
-      "aria-label",
-      `Lien vers la page de ${photographer.name}`
+    titleLink.setAttribute( "aria-label",`Lien vers la page de ${photographer.name}`
     );
+    titleLink.setAttribute("tabindex", "0");
 
     const h2 = document.createElement("h2");
     h2.innerText = photographer.name;
@@ -93,10 +97,14 @@ export class PhotographerFactory {
 
     const tagline = document.createElement("p");
     tagline.innerText = photographer.tagline;
+    tagline.setAttribute("aria-label", `Tagline : ${photographer.tagline}`);
+    tagline.setAttribute("tabindex", "0");
 
     const price = document.createElement("span");
     price.innerText = `${photographer.price}/jour`;
-
+    price.setAttribute("aria-label", `Prix : ${photographer.price} euros par jour`);
+    price.setAttribute("tabindex", "0");
+    
     // Ajout des éléments dans l'article
     article.appendChild(imgLink);
     article.appendChild(titleLink);
