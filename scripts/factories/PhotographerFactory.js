@@ -1,4 +1,5 @@
 import { Photographer } from "../classes/photographer.js";
+import { MediaFactory } from "./MediaFactory.js";
 
 export class PhotographerFactory {
   initPage(page) {
@@ -35,7 +36,6 @@ export class PhotographerFactory {
 
     // Récupère les données du photographer
     const photographer = await photographerFactory.getPhotographer(id);
-    console.log(photographer);
 
     // insérer le nom
     const name = document.querySelector(".photographer-name");
@@ -59,6 +59,64 @@ export class PhotographerFactory {
     img.setAttribute("aria-describedby", "photographer-address");
     const portrait = document.querySelector(".photographer-img");
     portrait.appendChild(img);
+
+    // récupérer les medias du photographer
+    const medias = await this.getPhotographerMedias(photographer.id);
+
+    const mediaSection = document.querySelector(".media");
+    // medias.forEach((media) =>
+    for (let i = 0; i < medias.length; i++) {
+      const media = medias[i];
+      const article = document.createElement("article");
+      article.classList.add("media-card");
+      const mediaContainer = document.createElement("div");
+      mediaContainer.classList.add("media-container");
+
+      // création de l'image
+      let mediaElement;
+      if (media.image) {
+        mediaElement = document.createElement("img");
+        mediaElement.setAttribute("src", `./assets/images/Mimi/${media.image}`);
+        mediaElement.setAttribute("alt", media.title);
+        mediaElement.setAttribute("title", media.title);
+      } else {
+        mediaElement = document.createElement("video");
+        mediaElement.setAttribute("src", `./assets/images/Mimi/${media.video}`);
+        mediaElement.setAttribute("controls", null);
+        mediaElement.setAttribute("alt", media.title);
+        mediaElement.setAttribute("title", media.title);
+      }
+      mediaContainer.appendChild(mediaElement);
+      article.appendChild(mediaContainer);
+
+      // création du bloc media-info
+      const mediaInfo = document.createElement("div");
+      mediaInfo.classList.add("media-info");
+      
+      // création du titre du media
+      const mediaTitle = document.createElement("h4");
+      mediaTitle.innerText = media.title;
+      mediaInfo.appendChild(mediaTitle);
+
+      // création du bloc like
+      const likeContainer = document.createElement("div");
+      likeContainer.setAttribute('aria-label', 'Nombre de likes');
+
+      // creation nombre de like
+      const likes = document.createElement("span");
+      likes.innerText = media.likes;
+      likeContainer.appendChild(likes);
+
+      // creation DE l'icone
+      const likeIcon = document.createElement("i");
+      likeIcon.classList = 'fa-solid fa-heart';
+      likeContainer.appendChild(likeIcon);
+      mediaInfo.appendChild(likeContainer)
+      article.appendChild(mediaInfo);
+
+      // ajouter l'article à la section
+      mediaSection.appendChild(article);
+    }
   }
 
   createPhotographerCard(photographerData) {
@@ -83,7 +141,9 @@ export class PhotographerFactory {
     // Lien pour le nom
     const titleLink = document.createElement("a");
     titleLink.setAttribute("href", `photographer.html?id=${photographer.id}`);
-    titleLink.setAttribute( "aria-label",`Lien vers la page de ${photographer.name}`
+    titleLink.setAttribute(
+      "aria-label",
+      `Lien vers la page de ${photographer.name}`
     );
     titleLink.setAttribute("tabindex", "0");
 
@@ -102,9 +162,12 @@ export class PhotographerFactory {
 
     const price = document.createElement("span");
     price.innerText = `${photographer.price}/jour`;
-    price.setAttribute("aria-label", `Prix : ${photographer.price} euros par jour`);
+    price.setAttribute(
+      "aria-label",
+      `Prix : ${photographer.price} euros par jour`
+    );
     price.setAttribute("tabindex", "0");
-    
+
     // Ajout des éléments dans l'article
     article.appendChild(imgLink);
     article.appendChild(titleLink);
@@ -125,10 +188,18 @@ export class PhotographerFactory {
 
   async getPhotographer(id) {
     const photographers = await this.getPhotographers();
-    const data = photographers.find(
-      (photographer) => photographer.id === id
-    );
+    const data = photographers.find((photographer) => photographer.id === id);
     const photographer = new Photographer(data);
     return photographer;
+  }
+
+  async getPhotographerMedias(photographerId) {
+    const reponse = await fetch("data/photographers.json");
+    const jsonData = await reponse.json();
+    const medias = jsonData.media;
+    const photographerMediasData = medias.filter(
+      (media) => media.photographerId === photographerId
+    );
+    return photographerMediasData.map((media) => new MediaFactory(media));
   }
 }
