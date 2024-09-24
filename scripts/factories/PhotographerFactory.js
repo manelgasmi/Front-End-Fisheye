@@ -60,6 +60,10 @@ export class PhotographerFactory {
     const portrait = document.querySelector(".photographer-img");
     portrait.appendChild(img);
 
+    // insére rle prix
+    const priceElement = document.querySelector('.likes-widget_price');
+    priceElement.innerText = `${photographer.price}€ / jour`;
+
     // récupérer les medias du photographer
     const medias = await this.getPhotographerMedias(photographer.id);
 
