@@ -60,7 +60,7 @@ export class PhotographerFactory {
     const portrait = document.querySelector(".photographer-img");
     portrait.appendChild(img);
 
-    // insére rle prix
+    // insére le prix
     const priceElement = document.querySelector('.likes-widget_price');
     priceElement.innerText = `${photographer.price}€ / jour`;
 
@@ -68,7 +68,7 @@ export class PhotographerFactory {
     const medias = await this.getPhotographerMedias(photographer.id);
 
     const mediaSection = document.querySelector(".media");
-    // medias.forEach((media) =>
+
     for (let i = 0; i < medias.length; i++) {
       const media = medias[i];
       const article = document.createElement("article");
@@ -80,12 +80,12 @@ export class PhotographerFactory {
       let mediaElement;
       if (media.image) {
         mediaElement = document.createElement("img");
-        mediaElement.setAttribute("src", `./assets/images/Mimi/${media.image}`);
+        mediaElement.setAttribute("src", `./assets/images/media/${media.image}`);
         mediaElement.setAttribute("alt", media.title);
         mediaElement.setAttribute("title", media.title);
       } else {
         mediaElement = document.createElement("video");
-        mediaElement.setAttribute("src", `./assets/images/Mimi/${media.video}`);
+        mediaElement.setAttribute("src", `./assets/images/media/${media.video}`);
         mediaElement.setAttribute("controls", null);
         mediaElement.setAttribute("alt", media.title);
         mediaElement.setAttribute("title", media.title);
@@ -109,6 +109,7 @@ export class PhotographerFactory {
       // creation nombre de like
       const likes = document.createElement("span");
       likes.innerText = media.likes;
+      //likes.setAttribute('aria-label', `${media.like} j'aime`);
       likeContainer.appendChild(likes);
 
       // creation DE l'icone
