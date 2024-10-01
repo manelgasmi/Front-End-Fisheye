@@ -1,4 +1,5 @@
 import { Photographer } from "../classes/photographer.js";
+import { Lightbox } from "../utils/lightbox.js";
 import { MediaFactory } from "./MediaFactory.js";
 
 export class PhotographerFactory {
@@ -10,6 +11,7 @@ export class PhotographerFactory {
       this.displayProfile();
     }
   }
+
   // afficher les listes des photographes
   async displayList() {
     const photographerFactory = new PhotographerFactory();
@@ -31,11 +33,9 @@ export class PhotographerFactory {
     const urlParams = new URLSearchParams(window.location.search);
     const photographerId = urlParams.get("id");
     const id = parseInt(photographerId);
-
-    const photographerFactory = new PhotographerFactory();
-
+    
     // Récupère les données du photographer
-    const photographer = await photographerFactory.getPhotographer(id);
+    const photographer = await this.getPhotographer(id);
 
     // insérer le nom
     const name = document.querySelector(".photographer-name");
@@ -83,13 +83,16 @@ export class PhotographerFactory {
         mediaElement.setAttribute("src", `./assets/images/media/${media.image}`);
         mediaElement.setAttribute("alt", media.title);
         mediaElement.setAttribute("title", media.title);
+        mediaElement.dataset.index =  i;
       } else {
         mediaElement = document.createElement("video");
         mediaElement.setAttribute("src", `./assets/images/media/${media.video}`);
-        mediaElement.setAttribute("controls", null);
+        mediaElement.setAttribute("controls", true);
         mediaElement.setAttribute("alt", media.title);
         mediaElement.setAttribute("title", media.title);
+        mediaElement.dataset.index =  i;
       }
+      
       mediaContainer.appendChild(mediaElement);
       article.appendChild(mediaContainer);
 
@@ -109,7 +112,8 @@ export class PhotographerFactory {
       // creation nombre de like
       const likes = document.createElement("span");
       likes.innerText = media.likes;
-      //likes.setAttribute('aria-label', `${media.like} j'aime`);
+      likes.setAttribute('aria-label', `${media.likes} j'aime`);
+      likes.setAttribute('tabindex', '0');
       likeContainer.appendChild(likes);
 
       // creation DE l'icone
@@ -122,6 +126,10 @@ export class PhotographerFactory {
       // ajouter l'article à la section
       mediaSection.appendChild(article);
     }
+
+    // Initialiser le lightbox après avoir charger les images
+    const lightbox = new Lightbox();
+    lightbox.init();
   }
 
   createPhotographerCard(photographerData) {

@@ -1,0 +1,61 @@
+dialog#lightbox {
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  border: none;
+  margin: 0;
+  background-color: #fff;
+}
+dialog#lightbox .dialog-container {
+  width: 1050px;
+  margin: auto;
+  border-radius: 5px;
+  height: 80%;
+  margin-top: 50px;
+}
+.lightbox-media {
+  height: 100%;
+}
+dialog#lightbox img,
+dialog#lightbox video {
+  width: 100%;
+  border-radius: 10px;
+  object-fit: contain;
+  height: 100%;
+}
+#lightboxTitle {
+  color: rgba(144, 28, 28, 1);
+  font-weight: 400;
+  font-size: 24px;
+  margin-top: 20px;
+}
+.lightbox-navigation {
+  display: flex;
+  justify-content: space-between;
+  position: absolute;
+  top: 44%;
+  width: 1150px;
+  pointer-events: none;
+  margin-left: -50px;
+}
+.arrow {
+  background: transparent;
+  color: rgba(144, 28, 28, 1);
+  padding: 10px;
+  border: none;
+  cursor: pointer;
+  pointer-events: all;
+  font-size: 50px;
+}
+.close-btn {
+  position: absolute;
+  top: 10px;
+  margin-left: 1000px;
+  color: rgba(144, 28, 28, 1);
+  font-size: 50px;
+  border: none;
+  background: transparent;
+  padding: 5px 10px;
+  cursor: pointer;
+}

@@ -1,3 +1,7 @@
+
+header .logo {
+    margin-left: 0;
+}
 .photograph-header {
   background-color: #fafafa;
   height: 300px;
@@ -6,6 +10,9 @@
   justify-content: space-between;
   flex-wrap: nowrap;
   align-items: center;
+  border-radius: 5px;
+  padding-left: 40px;
+  padding-right: 40px;
 }
 
 h1.photographer-name {
@@ -31,6 +38,9 @@ h4 {
   justify-content: center;
   flex-direction: column;
 }
+.contact_button-container :hover {
+    background-color: #db8876;
+}
 .contact_button {
   font-size: 20px;
   font-weight: bold;
@@ -43,6 +53,9 @@ h4 {
   border-radius: 5px;
   cursor: pointer;
 }
+.contact_button :hover {
+    color : black;
+}
 .photographer-img {
   display: flex;
 }
@@ -51,6 +64,12 @@ h4 {
   width: 200px;
   object-fit: cover;
   clip-path: circle(100px);
+}
+section.filter p {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 49px;
+  margin-top: 23px;
 }
 .media {
   display: flex;
