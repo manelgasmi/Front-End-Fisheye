@@ -14,7 +14,6 @@ export class PhotographerFactory {
 
   // afficher les listes des photographes
   async displayList() {
-    
     // Récupère les datas des photographes
     const photographers = await this.getPhotographers();
     const photographersSection = document.querySelector(
@@ -32,7 +31,7 @@ export class PhotographerFactory {
     const urlParams = new URLSearchParams(window.location.search);
     const photographerId = urlParams.get("id"); // récupération de l'id
     const id = parseInt(photographerId);
-    
+
     // Récupère les données du photographer
     const photographer = await this.getPhotographer(id);
 
@@ -41,14 +40,16 @@ export class PhotographerFactory {
     name.innerText = photographer.name;
     name.setAttribute("id", "photographer-name");
     name.setAttribute("role", "heading");
-    name.setAttribute("aria-level", "1")
-    name.setAttribute("tabindex" , "0")
+    name.setAttribute("aria-level", "1");
+    name.setAttribute("tabindex", "0");
 
     // insérer l'adresse
     const address = document.querySelector(".photographer-address p");
-    address.setAttribute("aria-label", `Adresse du photographe : ${photographer.city}, ${photographer.country}`)
+    address.setAttribute(
+      "aria-label",
+      `Adresse du photographe : ${photographer.city}, ${photographer.country}`
+    );
     address.innerText = `${photographer.city}, ${photographer.country}`;
-    
 
     // insérer tagline
     const tagline = document.querySelector(".photographer-tagline");
@@ -60,13 +61,13 @@ export class PhotographerFactory {
     img.setAttribute("src", `assets/photographers/${photographer.portrait}`);
     img.setAttribute("alt", `Portrait de ${photographer.name}`);
     img.setAttribute("aria-labelledby", "photographer-name");
-    img.setAttribute("tabindex" , "0");
+    img.setAttribute("tabindex", "0");
     const portrait = document.querySelector(".photographer-img");
     portrait.appendChild(img);
 
     // insére le prix
-    const priceElement = document.querySelector('.likes-widget_price');
-    priceElement.innerText = `${photographer.price}€ / jour`;// manque accessibilité
+    const priceElement = document.querySelector(".likes-widget_price");
+    priceElement.innerText = `${photographer.price}€ / jour`; // manque accessibilité
 
     // récupérer les medias du photographer
     const medias = await this.getPhotographerMedias(photographer.id);
@@ -84,61 +85,99 @@ export class PhotographerFactory {
       let mediaElement;
       if (media.image) {
         mediaElement = document.createElement("img");
-        mediaElement.setAttribute("src", `./assets/images/media/${media.image}`);
+        mediaElement.setAttribute(
+          "src",
+          `./assets/images/media/${media.image}`
+        );
         mediaElement.setAttribute("alt", media.title);
         mediaElement.setAttribute("title", media.title);
         mediaElement.setAttribute("tabindex", "0");
-        mediaElement.dataset.index =  i;
+        mediaElement.dataset.index = i;
       } else {
         mediaElement = document.createElement("video");
-        mediaElement.setAttribute("src", `./assets/images/media/${media.video}`);
+        mediaElement.setAttribute(
+          "src",
+          `./assets/images/media/${media.video}`
+        );
         mediaElement.setAttribute("controls", true);
         mediaElement.setAttribute("alt", media.title);
         mediaElement.setAttribute("title", media.title);
         mediaElement.setAttribute("aria-label", "Video : " + media.title);
         mediaElement.setAttribute("tabindex", "0");
-        mediaElement.dataset.index =  i;
+        mediaElement.dataset.index = i;
       }
-      
+
       mediaContainer.appendChild(mediaElement);
       article.appendChild(mediaContainer);
 
       // création du bloc media-info
       const mediaInfo = document.createElement("div");
       mediaInfo.classList.add("media-info");
-      
+
       // création du titre du media
       const mediaTitle = document.createElement("h4");
       mediaTitle.innerText = media.title;
-      mediaTitle.setAttribute('tabindex', '0');
+      mediaTitle.setAttribute("tabindex", "0");
       mediaInfo.appendChild(mediaTitle);
 
       // création du bloc like
       const likeContainer = document.createElement("div");
-      likeContainer.setAttribute('aria-label', 'Nombre de likes');
+      likeContainer.setAttribute("aria-label", "Nombre de likes");
 
       // creation nombre de like
       const likes = document.createElement("span");
+      likes.classList = "media-likes";
       likes.innerText = media.likes;
-      likes.setAttribute('aria-label', `${media.likes} j'aime`);
-      
-      likes.setAttribute('tabindex', '0');
+      likes.setAttribute("aria-label", `${media.likes} j'aime`);
+
+      likes.setAttribute("tabindex", "0");
       likeContainer.appendChild(likes);
 
       // creation DE l'icone
       const likeIcon = document.createElement("i");
-      likeIcon.classList = 'fa-solid fa-heart';
-      likeContainer.appendChild(likeIcon);
-      mediaInfo.appendChild(likeContainer)
+      likeIcon.classList = "fa-solid fa-heart";
+      const likeButton = document.createElement("button");
+      likeButton.classList = "btn-like";
+      likeButton.dataset.index = i;
+      likeButton.appendChild(likeIcon);
+      likeContainer.appendChild(likeButton);
+      mediaInfo.appendChild(likeContainer);
       article.appendChild(mediaInfo);
 
       // ajouter l'article à la section
       mediaSection.appendChild(article);
     }
 
+    this.displayTotalLikes(medias);
+    
+    // gestion de click sur le like
+    const likeButtons = document.querySelectorAll(".btn-like");
+    likeButtons.forEach((likeButton, index) => {
+      likeButton.addEventListener("click", (event) => {
+        const likedMedia = medias[index];
+        if (likeButton.classList.contains("liked")) {
+          likedMedia.likes--;
+          likeButton.classList.remove("liked");
+        } else {
+          likedMedia.likes++;
+          likeButton.classList.add("liked");
+        }
+        const likesTexts = document.querySelectorAll(".media-likes");
+        likesTexts[index].innerText = likedMedia.likes;
+        this.displayTotalLikes(medias);
+      });
+    });
+
     // Initialiser le lightbox après avoir charger les images
     const lightbox = new Lightbox();
     lightbox.init();
+  }
+
+  // afficher la somme des likes
+  displayTotalLikes(medias) {
+    const likesSum = medias.reduce((acc, media) => acc + media.likes, 0);
+    const likesSumWidget = document.querySelector(".likes-widget__count");
+    likesSumWidget.innerText = likesSum;
   }
 
   createPhotographerCard(photographerData) {
@@ -175,7 +214,7 @@ export class PhotographerFactory {
 
     // Autres éléments de la carte (ville, tagline, prix)
     const location = document.createElement("h6");
-    location.innerText = `${photographer.city}, ${photographer.country}`;// manque accessibilité
+    location.innerText = `${photographer.city}, ${photographer.country}`; // manque accessibilité
 
     const tagline = document.createElement("p");
     tagline.innerText = photographer.tagline;
@@ -207,7 +246,6 @@ export class PhotographerFactory {
     // et bien retourner le tableau photographers seulement une fois récupéré
     return photographers;
   }
-
 
   async getPhotographer(id) {
     const photographers = await this.getPhotographers();

@@ -71,6 +71,33 @@ section.filter p {
   margin-bottom: 49px;
   margin-top: 23px;
 }
+PHOTOGRAPHER FILTER
+
+*/
+.medias-filter{
+  margin: 10px 100px;
+}
+
+.medias-filter_label{
+  font-weight: 700;
+}
+
+.medias-filter_select{
+  height: 60px;
+  width: 170px;
+  background-color: #901C1C;
+  color: white;
+  font-size: 18px;
+  font-weight: 600;
+  border-radius: 5px;
+  padding: 0 10px;
+  cursor: pointer;
+}
+
+.medias-filter_select-opt{
+  height: 50px;
+  border-top: 1px solid white;
+}
 .media {
   display: flex;
   flex-direction: row;
@@ -102,11 +129,14 @@ section.filter p {
 .media-info i {
   margin-left: 10px;
 }
+.btn-like {
+    border: none;
+    background-color: transparent;
+    color: #901c1c;
+    font-size: large;
+}
 
 #contact_modal {
-  /* display: none; */
-  /* position: fixed; */
-  /* top: 0; */
   width: 100%;
   height: 100%;
   background: rgba(196, 196, 196, 0.4);
