@@ -14,16 +14,15 @@ export class PhotographerFactory {
 
   // afficher les listes des photographes
   async displayList() {
-    const photographerFactory = new PhotographerFactory();
+    
     // Récupère les datas des photographes
-    const photographers = await photographerFactory.getPhotographers();
+    const photographers = await this.getPhotographers();
     const photographersSection = document.querySelector(
       ".photographer_section"
     );
 
     photographers.forEach((photographer) => {
-      const userCardDOM =
-        photographerFactory.createPhotographerCard(photographer);
+      const userCardDOM = this.createPhotographerCard(photographer);
       photographersSection.appendChild(userCardDOM);
     });
   }
@@ -31,7 +30,7 @@ export class PhotographerFactory {
   async displayProfile() {
     //récupérer l'id du photographer depuis l'url
     const urlParams = new URLSearchParams(window.location.search);
-    const photographerId = urlParams.get("id");
+    const photographerId = urlParams.get("id"); // récupération de l'id
     const id = parseInt(photographerId);
     
     // Récupère les données du photographer
@@ -41,10 +40,15 @@ export class PhotographerFactory {
     const name = document.querySelector(".photographer-name");
     name.innerText = photographer.name;
     name.setAttribute("id", "photographer-name");
+    name.setAttribute("role", "heading");
+    name.setAttribute("aria-level", "1")
+    name.setAttribute("tabindex" , "0")
 
     // insérer l'adresse
-    const address = document.querySelector(".photographer-address");
+    const address = document.querySelector(".photographer-address p");
+    address.setAttribute("aria-label", `Adresse du photographe : ${photographer.city}, ${photographer.country}`)
     address.innerText = `${photographer.city}, ${photographer.country}`;
+    
 
     // insérer tagline
     const tagline = document.querySelector(".photographer-tagline");
@@ -56,13 +60,13 @@ export class PhotographerFactory {
     img.setAttribute("src", `assets/photographers/${photographer.portrait}`);
     img.setAttribute("alt", `Portrait de ${photographer.name}`);
     img.setAttribute("aria-labelledby", "photographer-name");
-    img.setAttribute("aria-describedby", "photographer-address");
+    img.setAttribute("tabindex" , "0");
     const portrait = document.querySelector(".photographer-img");
     portrait.appendChild(img);
 
     // insére le prix
     const priceElement = document.querySelector('.likes-widget_price');
-    priceElement.innerText = `${photographer.price}€ / jour`;
+    priceElement.innerText = `${photographer.price}€ / jour`;// manque accessibilité
 
     // récupérer les medias du photographer
     const medias = await this.getPhotographerMedias(photographer.id);
@@ -83,6 +87,7 @@ export class PhotographerFactory {
         mediaElement.setAttribute("src", `./assets/images/media/${media.image}`);
         mediaElement.setAttribute("alt", media.title);
         mediaElement.setAttribute("title", media.title);
+        mediaElement.setAttribute("tabindex", "0");
         mediaElement.dataset.index =  i;
       } else {
         mediaElement = document.createElement("video");
@@ -90,6 +95,8 @@ export class PhotographerFactory {
         mediaElement.setAttribute("controls", true);
         mediaElement.setAttribute("alt", media.title);
         mediaElement.setAttribute("title", media.title);
+        mediaElement.setAttribute("aria-label", "Video : " + media.title);
+        mediaElement.setAttribute("tabindex", "0");
         mediaElement.dataset.index =  i;
       }
       
@@ -103,6 +110,7 @@ export class PhotographerFactory {
       // création du titre du media
       const mediaTitle = document.createElement("h4");
       mediaTitle.innerText = media.title;
+      mediaTitle.setAttribute('tabindex', '0');
       mediaInfo.appendChild(mediaTitle);
 
       // création du bloc like
@@ -113,6 +121,7 @@ export class PhotographerFactory {
       const likes = document.createElement("span");
       likes.innerText = media.likes;
       likes.setAttribute('aria-label', `${media.likes} j'aime`);
+      
       likes.setAttribute('tabindex', '0');
       likeContainer.appendChild(likes);
 
@@ -166,7 +175,7 @@ export class PhotographerFactory {
 
     // Autres éléments de la carte (ville, tagline, prix)
     const location = document.createElement("h6");
-    location.innerText = `${photographer.city}, ${photographer.country}`;
+    location.innerText = `${photographer.city}, ${photographer.country}`;// manque accessibilité
 
     const tagline = document.createElement("p");
     tagline.innerText = photographer.tagline;
@@ -198,6 +207,7 @@ export class PhotographerFactory {
     // et bien retourner le tableau photographers seulement une fois récupéré
     return photographers;
   }
+
 
   async getPhotographer(id) {
     const photographers = await this.getPhotographers();

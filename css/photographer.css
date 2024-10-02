@@ -21,7 +21,7 @@ h1.photographer-name {
   font-weight: 400;
   margin: 36px 0px 5px 0px;
 }
-h4 {
+.photographer-address {
   font-size: 24px;
   font-weight: 400;
   color: #901c1c;

@@ -1,10 +1,10 @@
 import { PhotographerFactory } from "../factories/PhotographerFactory.js";
 
 export class App {
-  constructor() {}
+  
 
-  buildPage(page) {
+  buildPage(pageName) {
     const photographerFactory = new PhotographerFactory();
-    const photographer = photographerFactory.initPage(page);
+    const photographer = photographerFactory.initPage(pageName);
   }
 }
