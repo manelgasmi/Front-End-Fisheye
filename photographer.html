@@ -24,7 +24,7 @@
     <main class="container">
       <section class="photograph-header">
         <div class="photographer-infos">
-          <h1 class="photographer-name" ></h1>
+          <h1 class="photographer-name"></h1>
           <address role="presentation" class="photographer-address">
             <p tabindex="0"></p>
           </address>
@@ -35,10 +35,21 @@
         </div>
         <div class="photographer-img"></div>
       </section>
-      <section class="filter">
-        <p tabindex="0">Trier par </p>
+      <section class="medias-filter">
+        <label for="filter" class="medias-filter_label">Trier par :</label>
+        <select
+          name="order"
+          id="order"
+          class="medias-filter_select"
+          data-context="filter-select"
+        >
+          <option value="">--</option>
+          <option value="0">Popularité</option>
+          <option value="1">Date</option>
+          <option value="2">Titre</option>
+        </select>
       </section>
-      
+
       <section class="media"></section>
     </main>
     <div class="likes-widget" role="region" aria-label="Compteur de likes">

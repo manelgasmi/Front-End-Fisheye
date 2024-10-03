@@ -72,8 +72,44 @@ export class PhotographerFactory {
     // récupérer les medias du photographer
     const medias = await this.getPhotographerMedias(photographer.id);
 
-    const mediaSection = document.querySelector(".media");
+    this.displayMediasSection(medias);
 
+    this.displayTotalLikes(medias);
+
+    // gestion de click sur le like
+    const likeButtons = document.querySelectorAll(".btn-like");
+    likeButtons.forEach((likeButton, index) => {
+      likeButton.addEventListener("click", (event) => {
+        const likedMedia = medias[index];
+        if (likeButton.classList.contains("liked")) {
+          likedMedia.likes--;
+          likeButton.classList.remove("liked");
+        } else {
+          likedMedia.likes++;
+          likeButton.classList.add("liked");
+        }
+        const likesTexts = document.querySelectorAll(".media-likes");
+        likesTexts[index].innerText = likedMedia.likes;
+        this.displayTotalLikes(medias);
+      });
+    });
+
+    // Initialiser le lightbox après avoir charger les images
+    const lightbox = new Lightbox();
+    lightbox.init();
+    this.initOrderMedia(medias);
+  }
+
+  // afficher la somme des likes
+  displayTotalLikes(medias) {
+    const likesSum = medias.reduce((acc, media) => acc + media.likes, 0);
+    const likesSumWidget = document.querySelector(".likes-widget__count");
+    likesSumWidget.innerText = likesSum;
+  }
+
+  displayMediasSection(medias) {
+    const mediaSection = document.querySelector(".media");
+    mediaSection.innerHTML = "";
     for (let i = 0; i < medias.length; i++) {
       const media = medias[i];
       const article = document.createElement("article");
@@ -147,39 +183,7 @@ export class PhotographerFactory {
       // ajouter l'article à la section
       mediaSection.appendChild(article);
     }
-
-    this.displayTotalLikes(medias);
-    
-    // gestion de click sur le like
-    const likeButtons = document.querySelectorAll(".btn-like");
-    likeButtons.forEach((likeButton, index) => {
-      likeButton.addEventListener("click", (event) => {
-        const likedMedia = medias[index];
-        if (likeButton.classList.contains("liked")) {
-          likedMedia.likes--;
-          likeButton.classList.remove("liked");
-        } else {
-          likedMedia.likes++;
-          likeButton.classList.add("liked");
-        }
-        const likesTexts = document.querySelectorAll(".media-likes");
-        likesTexts[index].innerText = likedMedia.likes;
-        this.displayTotalLikes(medias);
-      });
-    });
-
-    // Initialiser le lightbox après avoir charger les images
-    const lightbox = new Lightbox();
-    lightbox.init();
   }
-
-  // afficher la somme des likes
-  displayTotalLikes(medias) {
-    const likesSum = medias.reduce((acc, media) => acc + media.likes, 0);
-    const likesSumWidget = document.querySelector(".likes-widget__count");
-    likesSumWidget.innerText = likesSum;
-  }
-
   createPhotographerCard(photographerData) {
     const photographer = new Photographer(photographerData);
     const article = document.createElement("article");
@@ -262,5 +266,33 @@ export class PhotographerFactory {
       (media) => media.photographerId === photographerId
     );
     return photographerMediasData.map((media) => new MediaFactory(media));
+  }
+
+  initOrderMedia(medias) {
+    const order = document.getElementById("order");
+    order.addEventListener("change", (e) => {
+      // trie par popularité
+      if (order.value === "0") {
+        medias.sort((a, b) => b.likes - a.likes);
+        // trie par date
+      } else if (order.value === "1") {
+        medias.sort((a, b) => {
+          if (a.date.toLowerCase() < b.date.toLowerCase()) return -1;
+          if (a.date.toLowerCase() > b.date.toLowerCase()) return 1;
+          return 0;
+        });
+        // trie par titre
+      } else if (order.value === "2") {
+        medias.sort((a, b) => {
+          if (a.title.toLowerCase() < b.title.toLowerCase()) return -1;
+          if (a.title.toLowerCase() > b.title.toLowerCase()) return 1;
+          return 0;
+        });
+      } else {
+        console.log("Pas de tri");
+      }
+      console.log(medias)
+      this.displayMediasSection(medias);
+    });
   }
 }

@@ -40,6 +40,7 @@ h1.photographer-name {
 }
 .contact_button-container :hover {
     background-color: #db8876;
+    color: black;
 }
 .contact_button {
   font-size: 20px;
@@ -73,7 +74,7 @@ section.filter p {
 }
 PHOTOGRAPHER FILTER
 
-*/
+
 .medias-filter{
   margin: 10px 100px;
 }
@@ -94,10 +95,6 @@ PHOTOGRAPHER FILTER
   cursor: pointer;
 }
 
-.medias-filter_select-opt{
-  height: 50px;
-  border-top: 1px solid white;
-}
 .media {
   display: flex;
   flex-direction: row;
