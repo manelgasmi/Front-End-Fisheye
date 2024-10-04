@@ -2,7 +2,6 @@ import { Contact } from "../classes/contact.js";
 
 const dialog = document.getElementById("contact_modal");
 const contactButton = document.querySelector(".contact_button");
-const closeButton = document.querySelector(".close-modal");
 const firstInputField = document.getElementById("first-name");
 
 // basculer entre ouverture et fermeture de la modal

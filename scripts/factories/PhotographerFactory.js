@@ -93,7 +93,7 @@ export class PhotographerFactory {
     // gestion de click sur le like
     const likeButtons = document.querySelectorAll(".btn-like");
     likeButtons.forEach((likeButton, index) => {
-      likeButton.addEventListener("click", (event) => {
+      likeButton.addEventListener("click", () => {
         const likedMedia = medias[index];
         if (likedMedia.liked) {
           likedMedia.likes--;
@@ -283,7 +283,7 @@ export class PhotographerFactory {
 
   initOrderMedia(medias) {
     const order = document.getElementById("order");
-    order.addEventListener("change", (e) => {
+    order.addEventListener("change", () => {
       // trie par popularité
       if (order.value === "0") {
         medias.sort((a, b) => b.likes - a.likes);

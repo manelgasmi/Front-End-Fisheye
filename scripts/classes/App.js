@@ -5,6 +5,6 @@ export class App {
 
   buildPage(pageName) {
     const photographerFactory = new PhotographerFactory();
-    const photographer = photographerFactory.initPage(pageName);
+    photographerFactory.initPage(pageName);
   }
 }
