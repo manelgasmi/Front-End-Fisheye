@@ -40,7 +40,6 @@ const firstInputField = document.getElementById("first-name");
     if (contact.isValidContact()) {
         console.log("Formulaire validé");
     } else {
-        //ce cas là ne a cause de l'accessibilté
         console.error("Formulaire non validé");
     }
 

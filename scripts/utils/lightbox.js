@@ -16,6 +16,13 @@ export class Lightbox {
         this.setMedia(medias);
         dialog.showModal();
       });
+      media.addEventListener("keypress", (event) => {
+        if (event.key === "Enter") {
+          this.currentIndex = index;
+          this.setMedia(medias);
+          dialog.showModal();
+        }
+      });
     });
     // fermer dialog
     document.querySelector(".close-btn").addEventListener("click", () => {
@@ -38,10 +45,8 @@ export class Lightbox {
     // Ajouter l'accessibilité par les flèches du clavier
     document.addEventListener("keydown", (event) => {
       if (event.key === "ArrowLeft") {
-        
         prevButton.click();
       } else if (event.key === "ArrowRight") {
-        
         nextButton.click();
       }
     });
@@ -58,7 +63,7 @@ export class Lightbox {
     const lightboxMedia = document.querySelector(".lightbox-media");
     const media = medias[this.currentIndex];
     if (media.nodeName === "IMG") {
-      lightboxMedia.innerHTML = `<img src="${media.src}" alt="${media.title}" />`;
+      lightboxMedia.innerHTML = `<img src="${media.src}" alt="Image dans le lightbox ${media.title}" tabindex="0"/>`;
     } else if (media.nodeName === "VIDEO") {
       lightboxMedia.innerHTML = `<video controls src="${media.src}">`;
     }

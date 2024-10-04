@@ -17,8 +17,8 @@
   </head>
   <body>
     <header class="container">
-      <a href="/">
-        <img src="assets/images/logo.png" class="logo" />
+      <a href="./">
+        <img src="assets/images/logo.png" class="logo" alt="fisheye home page" />
       </a>
     </header>
     <main class="container">
@@ -26,7 +26,7 @@
         <div class="photographer-infos">
           <h1 class="photographer-name"></h1>
           <address role="presentation" class="photographer-address">
-            <p tabindex="0"></p>
+            <span tabindex="0"></span>
           </address>
           <p class="photographer-tagline" tabindex="0"></p>
         </div>
@@ -36,14 +36,14 @@
         <div class="photographer-img"></div>
       </section>
       <section class="medias-filter">
-        <label for="filter" class="medias-filter_label">Trier par :</label>
+        <label for="order" class="medias-filter_label">Trier par</label>
         <select
           name="order"
           id="order"
           class="medias-filter_select"
           data-context="filter-select"
         >
-          <option value="">--</option>
+          <option class="hide" value=""></option>
           <option value="0">Popularité</option>
           <option value="1">Date</option>
           <option value="2">Titre</option>
@@ -66,7 +66,7 @@
           <img
             src="assets/icons/close.svg"
             class="close-modal"
-            alt="Fermer la modal"
+            alt="Fermer le forumaire de contact"
           />
         </header>
         <form>
@@ -99,10 +99,10 @@
 
     <dialog id="lightbox">
       <div class="dialog-container">
-        <button class="close-btn">X</button>
+        <button class="close-btn" aria-label="Fermer le lightbox">X</button>
         <div class="lightbox-navigation">
-          <button class="arrow" id="prev">&#10094;</button>
-          <button class="arrow" id="next">&#10095;</button>
+          <button class="arrow" id="prev" aria-label="Retour à l'image précédente">&#10094;</button>
+          <button class="arrow" id="next" aria-label="Passer à l'image suivante">&#10095;</button>
         </div>
         <div class="lightbox-media"></div>
         <h6 id="lightboxTitle"></h6>

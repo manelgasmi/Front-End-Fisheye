@@ -7,5 +7,6 @@ export class Image {
         this.date = data.date;
         this.price = data.price;
         this.image = data.image;
+        this.liked = false;
     }
 }

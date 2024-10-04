@@ -7,5 +7,6 @@ export class Video {
         this.date = data.date;
         this.price = data.price;
         this.video = data.video;
+        this.liked = false;
     }
 }

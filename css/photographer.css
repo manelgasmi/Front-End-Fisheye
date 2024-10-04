@@ -1,6 +1,5 @@
-
 header .logo {
-    margin-left: 0;
+  margin-left: 0;
 }
 .photograph-header {
   background-color: #fafafa;
@@ -26,6 +25,7 @@ h1.photographer-name {
   font-weight: 400;
   color: #901c1c;
   margin: 10px 0px;
+  font-style: normal;
 }
 .photographer-infos p {
   font-size: 18px;
@@ -39,8 +39,8 @@ h1.photographer-name {
   flex-direction: column;
 }
 .contact_button-container :hover {
-    background-color: #db8876;
-    color: black;
+  background-color: #db8876;
+  color: black;
 }
 .contact_button {
   font-size: 20px;
@@ -55,7 +55,7 @@ h1.photographer-name {
   cursor: pointer;
 }
 .contact_button :hover {
-    color : black;
+  color: black;
 }
 .photographer-img {
   display: flex;
@@ -72,27 +72,30 @@ section.filter p {
   margin-bottom: 49px;
   margin-top: 23px;
 }
-PHOTOGRAPHER FILTER
+/****PHOTOGRAPHER FILTER*****/
 
-
-.medias-filter{
-  margin: 10px 100px;
+.medias-filter {
+  margin: 20px 0 56px;
 }
 
-.medias-filter_label{
+.medias-filter_label {
   font-weight: 700;
 }
 
-.medias-filter_select{
+.medias-filter_select {
   height: 60px;
   width: 170px;
-  background-color: #901C1C;
+  background-color: #901c1c;
   color: white;
   font-size: 18px;
   font-weight: 600;
   border-radius: 5px;
   padding: 0 10px;
+  margin-left: 20px;
   cursor: pointer;
+}
+.hide {
+  display: none;
 }
 
 .media {
@@ -122,15 +125,24 @@ PHOTOGRAPHER FILTER
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  gap: 10px;
+}
+.media-info h4 {
+  font-size: 24px;
+  font-weight: 400;
 }
 .media-info i {
-  margin-left: 10px;
+  margin-left: 3px;
+}
+.like-container {
+  display: flex;
+  align-items: center;
 }
 .btn-like {
-    border: none;
-    background-color: transparent;
-    color: #901c1c;
-    font-size: large;
+  border: none;
+  background-color: transparent;
+  color: #901c1c;
+  font-size: large;
 }
 
 #contact_modal {
@@ -164,6 +176,8 @@ PHOTOGRAPHER FILTER
   justify-content: space-between;
   padding: 35px;
   margin: auto;
+  -webkit-box-shadow: -3px 9px 34px -2px rgba(0,0,0,0.56); 
+  box-shadow: -3px 9px 34px -2px rgba(0,0,0,0.56);
 }
 
 .modal header {

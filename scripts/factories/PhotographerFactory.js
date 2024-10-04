@@ -44,7 +44,7 @@ export class PhotographerFactory {
     name.setAttribute("tabindex", "0");
 
     // insérer l'adresse
-    const address = document.querySelector(".photographer-address p");
+    const address = document.querySelector(".photographer-address span");
     address.setAttribute(
       "aria-label",
       `Adresse du photographe : ${photographer.city}, ${photographer.country}`
@@ -53,22 +53,25 @@ export class PhotographerFactory {
 
     // insérer tagline
     const tagline = document.querySelector(".photographer-tagline");
+    tagline.setAttribute(
+      "aria-label",
+      `Tagline du photographe : ${photographer.tagline}`
+    );
     tagline.innerText = photographer.tagline;
-    address.setAttribute("id", "photographer-address");
 
     // insérer image
     const img = document.createElement("img");
     img.setAttribute("src", `assets/photographers/${photographer.portrait}`);
     img.setAttribute("alt", `Portrait de ${photographer.name}`);
-    img.setAttribute("aria-labelledby", "photographer-name");
     img.setAttribute("tabindex", "0");
     const portrait = document.querySelector(".photographer-img");
     portrait.appendChild(img);
 
     // insére le prix
     const priceElement = document.querySelector(".likes-widget_price");
-    priceElement.innerText = `${photographer.price}€ / jour`; // manque accessibilité
-
+    priceElement.innerText = `${photographer.price} € / jour`; 
+    priceElement.setAttribute('aria-label', `Prix du photographe : ${photographer.price} euros par jour`);
+   
     // récupérer les medias du photographer
     const medias = await this.getPhotographerMedias(photographer.id);
 
@@ -76,30 +79,35 @@ export class PhotographerFactory {
 
     this.displayTotalLikes(medias);
 
+    // Initialiser le lightbox après avoir charger les images
+    const lightbox = new Lightbox();
+    lightbox.init();
+
+    //Lancer la gestion des boutons like
+    this.manageLikeButtons(medias);
+
+    this.initOrderMedia(medias);
+  }
+
+  manageLikeButtons(medias) {
     // gestion de click sur le like
     const likeButtons = document.querySelectorAll(".btn-like");
     likeButtons.forEach((likeButton, index) => {
       likeButton.addEventListener("click", (event) => {
         const likedMedia = medias[index];
-        if (likeButton.classList.contains("liked")) {
+        if (likedMedia.liked) {
           likedMedia.likes--;
-          likeButton.classList.remove("liked");
+          likedMedia.liked = false;
         } else {
           likedMedia.likes++;
-          likeButton.classList.add("liked");
+          likedMedia.liked = true;
         }
         const likesTexts = document.querySelectorAll(".media-likes");
         likesTexts[index].innerText = likedMedia.likes;
         this.displayTotalLikes(medias);
       });
     });
-
-    // Initialiser le lightbox après avoir charger les images
-    const lightbox = new Lightbox();
-    lightbox.init();
-    this.initOrderMedia(medias);
   }
-
   // afficher la somme des likes
   displayTotalLikes(medias) {
     const likesSum = medias.reduce((acc, media) => acc + media.likes, 0);
@@ -158,6 +166,7 @@ export class PhotographerFactory {
 
       // création du bloc like
       const likeContainer = document.createElement("div");
+      likeContainer.classList.add("like-container");
       likeContainer.setAttribute("aria-label", "Nombre de likes");
 
       // creation nombre de like
@@ -216,17 +225,21 @@ export class PhotographerFactory {
     h2.innerText = photographer.name;
     titleLink.appendChild(h2);
 
-    // Autres éléments de la carte (ville, tagline, prix)
+    // création de l'adresse
     const location = document.createElement("h6");
-    location.innerText = `${photographer.city}, ${photographer.country}`; // manque accessibilité
+    location.innerText = `${photographer.city}, ${photographer.country}`; 
+    location.setAttribute ("aria-label", `adresse : ${photographer.city}, ${photographer.country}`)
+    location.setAttribute ("tabindex", "0");
 
+    // création du tagnline
     const tagline = document.createElement("p");
     tagline.innerText = photographer.tagline;
     tagline.setAttribute("aria-label", `Tagline : ${photographer.tagline}`);
     tagline.setAttribute("tabindex", "0");
 
+    // création du prix
     const price = document.createElement("span");
-    price.innerText = `${photographer.price}/jour`;
+    price.innerText = `${photographer.price}€/jour`;
     price.setAttribute(
       "aria-label",
       `Prix : ${photographer.price} euros par jour`
@@ -247,7 +260,7 @@ export class PhotographerFactory {
     const reponse = await fetch("data/photographers.json");
     const jsonData = await reponse.json();
     const photographers = jsonData.photographers;
-    // et bien retourner le tableau photographers seulement une fois récupéré
+    // retourner le tableau photographers seulement une fois récupéré
     return photographers;
   }
 
@@ -291,8 +304,15 @@ export class PhotographerFactory {
       } else {
         console.log("Pas de tri");
       }
-      console.log(medias)
+
       this.displayMediasSection(medias);
+
+      // Initialiser le lightbox après avoir charger les images
+      const lightbox = new Lightbox();
+      lightbox.init();
+
+      //Lancer la gestion des boutons like
+      this.manageLikeButtons(medias);
     });
   }
 }
