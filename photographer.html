@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
   <head>
     <link href="css/style.css" rel="stylesheet" type="text/css" />
     <link href="css/photographer.css" rel="stylesheet" type="text/css" />
@@ -35,15 +35,24 @@
         </div>
         <div class="photographer-img"></div>
       </section>
+      <div class="likes-widget">
+        <div class="likes-widget__details">
+          <span class="likes-widget__count" tabindex="0">0</span>
+          <em class="fa-solid fa-heart likes-widget__icon"></em>
+        </div>
+        <div class="likes-widget_price" tabindex="0"></div>
+      </div>
       <section class="medias-filter">
-        <label for="order" class="medias-filter_label">Trier par</label>
+        <label for="order" class="medias-filter_label" >Trier par</label>
         <select
           name="order"
           id="order"
           class="medias-filter_select"
           data-context="filter-select"
+          aria-label="Trier les medias"
         >
-          <option class="hide" value=""></option>
+          <option class="hide" value="" aria-label="Choisir une option">Sélectionner</option>
+
           <option value="0">Popularité</option>
           <option value="1">Date</option>
           <option value="2">Titre</option>
@@ -52,14 +61,7 @@
 
       <section class="media"></section>
     </main>
-    <div class="likes-widget" role="region" aria-label="Compteur de likes">
-      <div class="likes-widget__details">
-        <span class="likes-widget__count">0</span>
-        <i class="fa-solid fa-heart likes-widget__icon"></i>
-      </div>
-      <div class="likes-widget_price"></div>
-    </div>
-    <dialog id="contact_modal">
+    <dialog aria-modal =true id="contact_modal" role="alertdialog">
       <div class="modal">
         <header>
           <h2 id="contact-me">Contactez-moi</h2>
@@ -105,7 +107,7 @@
           <button class="arrow" id="next" aria-label="Passer à l'image suivante">&#10095;</button>
         </div>
         <div class="lightbox-media"></div>
-        <h6 id="lightboxTitle"></h6>
+        <h3 id="lightboxTitle"></h3>
       </div>
     </dialog>
 

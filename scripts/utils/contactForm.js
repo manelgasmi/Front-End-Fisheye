@@ -7,18 +7,16 @@ const firstInputField = document.getElementById("first-name");
 // basculer entre ouverture et fermeture de la modal
  function openModal() {
   dialog.showModal();
-  dialog.setAttribute("aria-hidden", "false"); // modal devient visible pour les lecteurs d'écran
+  dialog.setAttribute("aria-modal", "true"); 
   firstInputField.focus();
-
-  document.body.setAttribute("aria-hidden", "true"); // arrêter l'accessibilité du body
-}
+ }
 
 // Fermer la modal
  function closeModal() {
   dialog.close();
-  dialog.setAttribute("aria-hidden", "true"); // modal devient cachée pour les lecteurs d'écran
-  contactButton.focus(); // Restaurer le focus sur le bouton
-  document.body.setAttribute("aria-hidden", "false"); // rétablir l'accessibilité du body
+  dialog.setAttribute("aria-modal", "false"); 
+  contactButton.focus(); 
+  
 }
 
  function submitform(event) {

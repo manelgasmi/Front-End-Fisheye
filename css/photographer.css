@@ -127,7 +127,7 @@ section.filter p {
   align-items: center;
   gap: 10px;
 }
-.media-info h4 {
+.media-info h2 {
   font-size: 24px;
   font-weight: 400;
 }
@@ -150,6 +150,14 @@ section.filter p {
   height: 100%;
   background: rgba(196, 196, 196, 0.4);
   padding-top: 80px;
+}
+#contact-me {
+  font-size: 64px;
+  font-weight: 400;
+  color: rgba(0, 0, 0, 1);
+  margin: 0 0 40px 0;
+  padding: 0;
+  text-align: left;
 }
 .likes-widget {
   display: flex;
@@ -183,10 +191,14 @@ section.filter p {
 .modal header {
   justify-content: space-between;
   width: 100%;
+  height: auto;
 }
 
 .modal header img {
   cursor: pointer;
+  position: absolute;
+  margin-left: 647px;
+  margin-top: -190px;
 }
 
 .modal header h2 {
@@ -220,10 +232,12 @@ form input {
   height: 68px;
   border: none;
   border-radius: 5px;
+  font-size: 25px;
 }
 
 form textarea {
   width: 100%;
   border: none;
   border-radius: 5px;
+  font-size: 25px;
 }

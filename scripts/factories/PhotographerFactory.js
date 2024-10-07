@@ -39,9 +39,11 @@ export class PhotographerFactory {
     const name = document.querySelector(".photographer-name");
     name.innerText = photographer.name;
     name.setAttribute("id", "photographer-name");
-    name.setAttribute("role", "heading");
-    name.setAttribute("aria-level", "1");
     name.setAttribute("tabindex", "0");
+    
+    // Ajouter le nom du photographe dansle dialog de contact
+    const contactMeTitle = document.getElementById('contact-me');
+    contactMeTitle.innerText = `Contactez-moi ${photographer.name}`;
 
     // insérer l'adresse
     const address = document.querySelector(".photographer-address span");
@@ -70,7 +72,7 @@ export class PhotographerFactory {
     // insére le prix
     const priceElement = document.querySelector(".likes-widget_price");
     priceElement.innerText = `${photographer.price} € / jour`; 
-    priceElement.setAttribute('aria-label', `Prix du photographe : ${photographer.price} euros par jour`);
+    priceElement.setAttribute('aria-label', `Tarif du photographe : ${photographer.price} euros par jour`);
    
     // récupérer les medias du photographer
     const medias = await this.getPhotographerMedias(photographer.id);
@@ -98,9 +100,11 @@ export class PhotographerFactory {
         if (likedMedia.liked) {
           likedMedia.likes--;
           likedMedia.liked = false;
+          likeButton.setAttribute("aria-label", "Cliquer pour aimer");
         } else {
           likedMedia.likes++;
           likedMedia.liked = true;
+          likeButton.setAttribute("aria-label", "Cliquer pour retirer le j'aime");
         }
         const likesTexts = document.querySelectorAll(".media-likes");
         likesTexts[index].innerText = likedMedia.likes;
@@ -112,6 +116,7 @@ export class PhotographerFactory {
   displayTotalLikes(medias) {
     const likesSum = medias.reduce((acc, media) => acc + media.likes, 0);
     const likesSumWidget = document.querySelector(".likes-widget__count");
+    likesSumWidget.setAttribute("aria-label", `Nombre total des likes ${likesSum}`);
     likesSumWidget.innerText = likesSum;
   }
 
@@ -125,7 +130,7 @@ export class PhotographerFactory {
       const mediaContainer = document.createElement("div");
       mediaContainer.classList.add("media-container");
 
-      // création de l'image
+      // création du media
       let mediaElement;
       if (media.image) {
         mediaElement = document.createElement("img");
@@ -143,8 +148,7 @@ export class PhotographerFactory {
           "src",
           `./assets/images/media/${media.video}`
         );
-        mediaElement.setAttribute("controls", true);
-        mediaElement.setAttribute("alt", media.title);
+        mediaElement.setAttribute("controls", "");
         mediaElement.setAttribute("title", media.title);
         mediaElement.setAttribute("aria-label", "Video : " + media.title);
         mediaElement.setAttribute("tabindex", "0");
@@ -159,7 +163,7 @@ export class PhotographerFactory {
       mediaInfo.classList.add("media-info");
 
       // création du titre du media
-      const mediaTitle = document.createElement("h4");
+      const mediaTitle = document.createElement("h2");
       mediaTitle.innerText = media.title;
       mediaTitle.setAttribute("tabindex", "0");
       mediaInfo.appendChild(mediaTitle);
@@ -179,10 +183,11 @@ export class PhotographerFactory {
       likeContainer.appendChild(likes);
 
       // creation DE l'icone
-      const likeIcon = document.createElement("i");
+      const likeIcon = document.createElement("em");
       likeIcon.classList = "fa-solid fa-heart";
       const likeButton = document.createElement("button");
       likeButton.classList = "btn-like";
+      likeButton.setAttribute("aria-label", "Cliquer pour aimer");
       likeButton.dataset.index = i;
       likeButton.appendChild(likeIcon);
       likeContainer.appendChild(likeButton);
@@ -193,8 +198,7 @@ export class PhotographerFactory {
       mediaSection.appendChild(article);
     }
   }
-  createPhotographerCard(photographerData) {
-    const photographer = new Photographer(photographerData);
+  createPhotographerCard(photographer) {
     const article = document.createElement("article");
     article.setAttribute("role", "article");
 
@@ -226,12 +230,12 @@ export class PhotographerFactory {
     titleLink.appendChild(h2);
 
     // création de l'adresse
-    const location = document.createElement("h6");
+    const location = document.createElement("h3");
     location.innerText = `${photographer.city}, ${photographer.country}`; 
     location.setAttribute ("aria-label", `adresse : ${photographer.city}, ${photographer.country}`)
     location.setAttribute ("tabindex", "0");
 
-    // création du tagnline
+    // création du tagline
     const tagline = document.createElement("p");
     tagline.innerText = photographer.tagline;
     tagline.setAttribute("aria-label", `Tagline : ${photographer.tagline}`);
@@ -259,16 +263,18 @@ export class PhotographerFactory {
   async getPhotographers() {
     const reponse = await fetch("data/photographers.json");
     const jsonData = await reponse.json();
-    const photographers = jsonData.photographers;
+    let photographers = jsonData.photographers;
+    //convertir en array d'objet de type photographer
+    photographers = photographers.map(photographerData => {
+      return new Photographer(photographerData);
+    })
     // retourner le tableau photographers seulement une fois récupéré
     return photographers;
   }
 
   async getPhotographer(id) {
     const photographers = await this.getPhotographers();
-    const data = photographers.find((photographer) => photographer.id === id);
-    const photographer = new Photographer(data);
-    return photographer;
+    return photographers.find((photographer) => photographer.id === id);
   }
 
   async getPhotographerMedias(photographerId) {
@@ -290,8 +296,8 @@ export class PhotographerFactory {
         // trie par date
       } else if (order.value === "1") {
         medias.sort((a, b) => {
-          if (a.date.toLowerCase() < b.date.toLowerCase()) return -1;
-          if (a.date.toLowerCase() > b.date.toLowerCase()) return 1;
+          if (a.date < b.date) return -1;
+          if (a.date > b.date) return 1;
           return 0;
         });
         // trie par titre
